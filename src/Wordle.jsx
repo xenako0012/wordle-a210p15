@@ -178,6 +178,12 @@ function Wordle({ onBack }) {
               : message}
       </p>
 
+      {status !== 'playing' && (
+        <button className="new-word-button" type="button" onClick={startNewGame}>
+          Nueva partida
+        </button>
+      )}
+
       <section className="wordle-keyboard" aria-label="Teclado en pantalla">
         {KEY_ROWS.map((row) => (
           <div className="wordle-key-row" key={row.join('')}>
@@ -201,11 +207,6 @@ function Wordle({ onBack }) {
         ))}
       </section>
 
-      {status !== 'playing' && (
-        <button className="new-word-button" type="button" onClick={startNewGame}>
-          Jugar otra palabra
-        </button>
-      )}
     </main>
   )
 }
