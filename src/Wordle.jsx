@@ -156,9 +156,14 @@ function Wordle({ onBack }) {
               {Array.from({ length: WORD_LENGTH }, (_, columnIndex) => {
                 const letter = guess[columnIndex] ?? ''
                 const tileState = result[columnIndex] ?? (letter ? 'filled' : 'empty')
+                const isCursor =
+                  dictionaryReady &&
+                  status === 'playing' &&
+                  rowIndex === guesses.length &&
+                  columnIndex === currentGuess.length
                 return (
                   <div
-                    className={`wordle-tile wordle-tile--${tileState}`}
+                    className={`wordle-tile wordle-tile--${tileState}${isCursor ? ' wordle-tile--cursor' : ''}`}
                     role="gridcell"
                     aria-label={`${letter || 'vacía'} ${tileState}`}
                     key={columnIndex}

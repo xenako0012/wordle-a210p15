@@ -153,6 +153,11 @@
   animation: tile-pop 120ms ease-out;
 }
 
+.wordle-tile--cursor:not(.wordle-tile--filled) {
+  outline: 3px solid #d86648;
+  outline-offset: 2px;
+}
+
 .wordle-tile--correct,
 .wordle-key--correct {
   border-color: #36766b;
