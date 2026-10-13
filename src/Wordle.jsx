@@ -61,7 +61,7 @@ function Wordle({ onBack }) {
   function submitGuess() {
     if (status !== 'playing' || !dictionaryReady) return
     if (currentGuess.length !== WORD_LENGTH) {
-      setMessage('Escribe cinco letras.')
+      setMessage('Faltan letras')
       return
     }
 
