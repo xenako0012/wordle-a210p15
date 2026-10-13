@@ -15,9 +15,13 @@ const KEY_ROWS = [
 ]
 
 const STATE_RANK = { absent: 1, present: 2, correct: 3 }
+const SOLUTIONS = [...new Set(ANSWERS.map(normalize))].filter(
+  (word) => [...word].length === WORD_LENGTH,
+)
 
 function randomAnswer(exclude = '') {
-  const choices = ANSWERS.filter((answer) => normalize(answer) !== normalize(exclude))
+  const previousAnswer = normalize(exclude)
+  const choices = SOLUTIONS.filter((answer) => answer !== previousAnswer)
   return choices[Math.floor(Math.random() * choices.length)]
 }
 
