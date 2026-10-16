@@ -1,7 +1,20 @@
 :root {
-  font-family: 'Trebuchet MS', 'Avenir Next', sans-serif;
-  color: #183438;
-  background: #f4faf8;
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+  color: #202b27;
+  background: #f1f3ed;
+  --ink: #202b27;
+  --muted: #65726b;
+  --paper: #f1f3ed;
+  --tile: #fbfcf8;
+  --line: #b9c4bb;
+  --coral: #c94f37;
+  --coral-dark: #a93d2a;
+  --green: #39745d;
+  --green-dark: #285b47;
+  --gold: #a8731e;
+  --gold-dark: #835716;
+  --stone: #68736d;
+  --stone-dark: #505a54;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,49 +35,31 @@ body {
   justify-items: center;
   gap: 12px;
   box-sizing: border-box;
-  padding: 32px 20px;
-  background:
-    radial-gradient(#b7d4cc 0.75px, transparent 0.75px) 0 0 / 22px 22px,
-    #f4faf8;
-}
-
-.saludo {
-  width: min(100%, 360px);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 18px 22px;
-  border-bottom: 1px solid #c9ded8;
-  border-left: 4px solid #d86648;
-  background: rgba(255, 255, 255, 0.92);
-  color: #183438;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: 0;
-}
-
-.saludo:nth-child(2) {
-  border-left-color: #36766b;
+  padding: 28px 18px;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(32, 43, 39, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 43, 39, 0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
 }
 
 button {
-  width: min(100%, 360px);
+  width: min(100%, 380px);
   min-height: 52px;
   box-sizing: border-box;
   padding: 14px 20px;
   border: 0;
-  border-radius: 4px;
-  background: #d86648;
-  color: #180000;
-  font: 600 16px/1.2 'Trebuchet MS', 'Avenir Next', sans-serif;
+  border-radius: 2px;
+  background: var(--coral);
+  color: #fffdf7;
+  font: 650 15px/1.2 'Avenir Next', 'Segoe UI', sans-serif;
   letter-spacing: 0;
   cursor: pointer;
-  transition: background-color 160ms ease, transform 160ms ease;
+  transition: background-color 140ms ease, transform 140ms ease;
 }
 
 button:hover {
-  background: #b94f35;
+  background: var(--coral-dark);
 }
 
 button:active {
@@ -72,13 +67,7 @@ button:active {
 }
 
 button:focus-visible {
-  outline: 3px solid #183438;
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
 }
 
-@media (max-width: 480px) {
-  .saludo {
-    padding: 16px 18px;
-    font-size: 28px;
-  }
-}

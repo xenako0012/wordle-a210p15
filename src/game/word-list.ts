@@ -6,8 +6,7 @@
  * arrancar la app, así que aquí sólo guardamos los ~503 secretos
  * posibles (el modo diario va rotando sobre esta lista).
  *
- * Las comparaciones se hacen siempre normalizadas (sin acentos y con ñ -> n),
- * por lo que da igual cómo las escriba el jugador.
+ * Las comparaciones ignoran las tildes, pero conservan la Ñ como letra propia.
  */
 export const ANSWERS: readonly string[] = [
   'abeto', 'abrir', 'acero', 'actor', 'agudo', 'ajeno', 'algas', 'amigo',

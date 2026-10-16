@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useState } from 'react'
 import { ANSWERS } from './game/word-list.ts'
+import Teclado from './Teclado.jsx'
 import {
   evaluateGuess,
   isLetter,
@@ -8,13 +9,14 @@ import {
   WORD_LENGTH,
 } from './game/wordle.model.ts'
 
-const KEY_ROWS = [
-  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
-  ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
-]
-
 const STATE_RANK = { absent: 1, present: 2, correct: 3 }
+const STATE_LABELS = {
+  empty: 'vacía',
+  filled: 'escrita',
+  absent: 'incorrecta',
+  present: 'presente',
+  correct: 'correcta',
+}
 const SOLUTIONS = [...new Set(ANSWERS.map(normalize))].filter(
   (word) => [...word].length === WORD_LENGTH,
 )
@@ -165,7 +167,7 @@ function Wordle({ onBack }) {
                   <div
                     className={`wordle-tile wordle-tile--${tileState}${isCursor ? ' wordle-tile--cursor' : ''}`}
                     role="gridcell"
-                    aria-label={`${letter || 'vacía'} ${tileState}`}
+                    aria-label={`Fila ${rowIndex + 1}, columna ${columnIndex + 1}: ${letter || 'vacía'}, ${STATE_LABELS[tileState]}`}
                     key={columnIndex}
                   >
                     {letter}
@@ -193,29 +195,11 @@ function Wordle({ onBack }) {
         </button>
       )}
 
-      <section className="wordle-keyboard" aria-label="Teclado en pantalla">
-        {KEY_ROWS.map((row) => (
-          <div className="wordle-key-row" key={row.join('')}>
-            {row.map((key) => {
-              const state = key.length === 1 ? keyStates.get(normalize(key)) : ''
-              const label = key === 'BACKSPACE' ? 'Borrar última letra' : key
-              return (
-                <button
-                  className={`wordle-key${key.length > 1 ? ' wordle-key--wide' : ''}${state ? ` wordle-key--${state}` : ''}`}
-                  type="button"
-                  aria-label={label}
-                  disabled={!dictionaryReady || status !== 'playing'}
-                  onClick={() => pressKey(key)}
-                  key={key}
-                >
-                  {key === 'BACKSPACE' ? '⌫' : key}
-                </button>
-              )
-            })}
-          </div>
-        ))}
-      </section>
-
+      <Teclado
+        keyStates={keyStates}
+        disabled={!dictionaryReady || status !== 'playing'}
+        onPressKey={pressKey}
+      />
     </main>
   )
 }

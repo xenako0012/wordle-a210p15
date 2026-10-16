@@ -38,12 +38,13 @@ export function emptyStats(): GameStats {
 }
 
 /**
- * Normaliza para comparar: sin acentos, sin diéresis, ñ -> n y en mayúsculas.
- * Así "árbol" y "ARBOL" son la misma palabra.
+ * Normaliza para comparar: sin tildes ni diéresis, conserva la Ñ y usa mayúsculas.
+ * Así "árbol" y "ARBOL" son la misma palabra, pero "N" y "Ñ" son distintas.
  */
 export function normalize(word: string): string {
   return word
     .normalize('NFD')
+    .replace(/n\u0303/gi, 'ñ')
     .replace(/[\u0300-\u036f]/g, '')
     .toUpperCase();
 }
@@ -66,28 +67,30 @@ export function createEmptyGrid(): Tile[][] {
  * aún "quedan" por emparejar.
  */
 export function evaluateGuess(guess: string, answer: string): LetterState[] {
-  const g = [...normalize(guess)];
-  const a = [...normalize(answer)];
-  const result: LetterState[] = g.map(() => 'absent');
-  const pending = new Map<string, number>();
+  const guessLetters = [...normalize(guess)];
+  const answerLetters = [...normalize(answer)];
+  const result: LetterState[] = guessLetters.map(() => 'absent');
+  const remainingLetters = new Map<string, number>();
 
-  a.forEach((letter, i) => {
-    if (i >= g.length) return;
-    if (g[i] === letter) {
-      result[i] = 'correct';
+  for (let index = 0; index < Math.min(guessLetters.length, answerLetters.length); index++) {
+    const answerLetter = answerLetters[index];
+    if (guessLetters[index] === answerLetter) {
+      result[index] = 'correct';
     } else {
-      pending.set(letter, (pending.get(letter) ?? 0) + 1);
+      remainingLetters.set(answerLetter, (remainingLetters.get(answerLetter) ?? 0) + 1);
     }
-  });
+  }
 
-  g.forEach((letter, i) => {
-    if (result[i] === 'correct') return;
-    const left = pending.get(letter) ?? 0;
-    if (left > 0) {
-      result[i] = 'present';
-      pending.set(letter, left - 1);
+  for (let index = 0; index < guessLetters.length; index++) {
+    if (result[index] === 'correct') continue;
+
+    const letter = guessLetters[index];
+    const remaining = remainingLetters.get(letter) ?? 0;
+    if (remaining > 0) {
+      result[index] = 'present';
+      remainingLetters.set(letter, remaining - 1);
     }
-  });
+  }
 
   return result;
 }
